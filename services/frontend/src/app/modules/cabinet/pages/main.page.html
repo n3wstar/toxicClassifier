@@ -1,0 +1,27 @@
+<div class="page">
+     <div class="header">
+        <h1 class="header__title">ru-toxic-text-classification</h1>
+    </div>
+
+    <div class="hero">
+
+        <h2 class="hero__title">Определите токсичность текста</h2>
+        <p class="hero__subtitle">Введите любой текст и узнайте, насколько он токсичен с помощью нейросетей.</p>
+
+        <button tuiButton (click)="setFocusOnInput()">Попробовать</button>
+    </div>
+
+    <div id="analyze" class="analyze">
+        <h3 class="analyze__title">Введите текст для анализа</h3>
+
+        <textarea #searchInput [(ngModel)]="inputText" class="analyze__textarea" rows="6"
+                  placeholder="Введите текст..."></textarea>
+
+        <button tuiButton (click)="analyzeText()" appearance="secondary">Анализировать</button>
+
+        @if (result) {
+            <progress-bar [titleText]="'Результат'" [subtitleText]="'Уровень токсичности'" [value]="result.toxicity" />
+            <progress-bar [titleText]="'Точность определения'" [value]="result.toxicity" />
+        }
+    </div>
+</div>

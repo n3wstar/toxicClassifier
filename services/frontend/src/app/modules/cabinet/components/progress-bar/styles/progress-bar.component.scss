@@ -1,0 +1,42 @@
+.progress-bar {
+    &__result {
+        margin-top: 1.5rem;
+    }
+
+    &__result-title {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        color: #333;
+    }
+
+    &__container {
+        background: #e5e7eb;
+        border-radius: 9999px;
+        height: 1rem;
+        overflow: hidden;
+        margin-bottom: 0.5rem;
+    }
+
+    &__progress-line {
+        height: 100%;
+        border-radius: 9999px;
+        transition: width 0.5s;
+
+        &--low {
+            background: #10b981;
+        }
+
+        &--medium {
+            background: #f59e0b;
+        }
+
+        &--high {
+            background: #ef4444;
+        }
+    }
+
+    &__percentage {
+        color: #555;
+    }
+}
+

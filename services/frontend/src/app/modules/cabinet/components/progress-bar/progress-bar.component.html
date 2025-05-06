@@ -1,0 +1,17 @@
+<div class="progress-bar">
+    <h4 class="progress-bar__result-title">{{ titleText() }}:</h4>
+    <div class="progress-bar__container">
+        <div class="progress-bar__progress-line"
+             [style.width.%]="value() * 100"
+             [ngClass]="{
+                             'progress-bar__progress-line--low': value() < 0.3,
+                             'progress-bar__progress-line--medium': value() >= 0.3 && value() < 0.7,
+                             'progress-bar__progress-line--high': value() >= 0.7
+                         }">
+        </div>
+    </div>
+
+    @if (subtitleText()) {
+        <p class="progress-bar__percentage">{{ subtitleText() }}: {{ (value() * 100) | number : '1.0-2' }}%</p>
+    }
+</div>
