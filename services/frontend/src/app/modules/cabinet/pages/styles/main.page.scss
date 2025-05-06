@@ -44,6 +44,14 @@
     text-align: center;
     padding: 4rem 2rem;
 
+    &__image {
+        max-width: 20%;
+        border-radius: 40px;
+
+        @media (width < 600px) {
+            max-width: 40%;
+        }
+    }
     &__title {
         font-family: 'Nunito', sans-serif;
         line-height: 100%;

@@ -4,7 +4,8 @@ import {TuiButtonModule, TuiTextfieldControllerModule} from "@taiga-ui/core";
 import {TuiTextareaModule} from "@taiga-ui/kit";
 import {ProgressBarComponent} from "../components/progress-bar/progress-bar.component";
 import { ToxicClassificationRequestService } from "../services/toxic-classification-request.service";
-import {take} from "rxjs";
+import {Subject, take} from "rxjs";
+import {TOXIC_STATE_TOKEN} from "../data/tokens/toxic-state.token";
 
 @Component({
     standalone: true,
@@ -30,6 +31,7 @@ export class MainPage {
     protected result: { toxicity: number } | null = null;
 
     private readonly _toxicClassificationRequestService: ToxicClassificationRequestService = inject(ToxicClassificationRequestService);
+    private readonly _toxicState$: Subject<number> = inject(TOXIC_STATE_TOKEN);
 
     protected analyzeText(): void {
         if (!this.inputText.trim()) {
@@ -50,6 +52,7 @@ export class MainPage {
 
         // Устанавливаем результат
         this.result = {toxicity: randomToxicity};
+        this._toxicState$.next(randomToxicity)
 
         setTimeout(() => { this.smoothScrollToBottom() })
     }

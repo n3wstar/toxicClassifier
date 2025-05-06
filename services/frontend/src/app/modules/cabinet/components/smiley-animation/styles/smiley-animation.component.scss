@@ -1,0 +1,15 @@
+.smiley-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.smiley {
+    position: absolute;
+    font-size: 28px;
+    will-change: transform;
+}

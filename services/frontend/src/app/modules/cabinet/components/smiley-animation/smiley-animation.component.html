@@ -1,0 +1,11 @@
+<div #smileyContainer class="smiley-container">
+    @for (smile of smiles(); track smile) {
+        <span class="smiley"
+              [style.left.px]="smile.x"
+              [style.top.px]="smile.y"
+              [style.transform]="'rotate(' + smile.rotation + 'deg) scale(' + smile.scale + ')'"
+        >
+        {{ smile.emoji }}
+        </span>
+    }
+</div>
