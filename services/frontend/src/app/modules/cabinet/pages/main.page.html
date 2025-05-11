@@ -23,7 +23,7 @@
 
         @if (result) {
             <progress-bar [titleText]="'Результат'" [subtitleText]="'Уровень токсичности'" [value]="result.toxicity" />
-            <progress-bar [titleText]="'Точность определения'" [value]="result.toxicity" />
+            <progress-bar [titleText]="'Точность определения'" [value]="confidenceState()" />
         }
     </div>
 </div>

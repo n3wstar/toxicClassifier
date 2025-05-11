@@ -1,4 +1,12 @@
-import {ChangeDetectionStrategy, Component, ElementRef, inject, ViewChild} from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    ElementRef,
+    inject, signal,
+    ViewChild,
+    WritableSignal
+} from "@angular/core";
 import {FormsModule} from "@angular/forms";
 import {TuiButtonModule, TuiTextfieldControllerModule} from "@taiga-ui/core";
 import {TuiTextareaModule} from "@taiga-ui/kit";
@@ -6,6 +14,7 @@ import {ProgressBarComponent} from "../components/progress-bar/progress-bar.comp
 import { ToxicClassificationRequestService } from "../services/toxic-classification-request.service";
 import {Subject, take} from "rxjs";
 import {TOXIC_STATE_TOKEN} from "../data/tokens/toxic-state.token";
+import {IPredictResponse} from "../data/response-models/predict.response-model.interface";
 
 @Component({
     standalone: true,
@@ -29,9 +38,11 @@ export class MainPage {
 
     protected inputText: string = '';
     protected result: { toxicity: number } | null = null;
+    protected readonly confidenceState: WritableSignal<number> = signal(0);
 
     private readonly _toxicClassificationRequestService: ToxicClassificationRequestService = inject(ToxicClassificationRequestService);
     private readonly _toxicState$: Subject<number> = inject(TOXIC_STATE_TOKEN);
+    private readonly _cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
     protected analyzeText(): void {
         if (!this.inputText.trim()) {
@@ -44,17 +55,23 @@ export class MainPage {
             .pipe(
                 take(1)
             )
-            .subscribe((result: any) => this.result = result);
+            .subscribe((result: IPredictResponse) => {
+                switch (result.prediction) {
+                    case 'NORMAL':
+                        this.result = { toxicity: 0.1 };
+                        break;
+                    case 'TOXIC':
+                        this.result = { toxicity: 0.9 };
+                        break;
+                }
 
-        // 🔥 Здесь можно интегрировать реальный API или ML модель
-        // Для демо — случайное число от 0 до 1, как "токсичность"
-        const randomToxicity = Math.random();
+                this._toxicState$.next(this.result?.toxicity!)
+                this._cdr.detectChanges();
 
-        // Устанавливаем результат
-        this.result = {toxicity: randomToxicity};
-        this._toxicState$.next(randomToxicity)
+                this.confidenceState.set(result.confidence);
 
-        setTimeout(() => { this.smoothScrollToBottom() })
+                setTimeout(() => { this.smoothScrollToBottom() })
+            });
     }
 
     protected setFocusOnInput(): void {

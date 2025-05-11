@@ -4,7 +4,7 @@
         <div class="progress-bar__progress-line"
              [style.width.%]="value() * 100"
              [ngClass]="{
-                             'progress-bar__progress-line--low': value() < 0.3,
+                             'progress-bar__progress-line--low': value() < isConfidence() ? 0.3 : 0.7,
                              'progress-bar__progress-line--medium': value() >= 0.3 && value() < 0.7,
                              'progress-bar__progress-line--high': value() >= 0.7
                          }">
