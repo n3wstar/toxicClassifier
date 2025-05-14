@@ -4,7 +4,7 @@ import {Component} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {SmileyAnimationComponent} from "./modules/cabinet/components/smiley-animation/smiley-animation.component";
 import {TOXIC_STATE_TOKEN} from "./modules/cabinet/data/tokens/toxic-state.token";
-import {Subject} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 
 @Component({
     selector: 'app-root',
@@ -13,8 +13,8 @@ import {Subject} from "rxjs";
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
     providers: [
-        { provide: TUI_SANITIZER, useClass: NgDompurifySanitizer },
-        { provide: TOXIC_STATE_TOKEN, useValue: new Subject() }
+        {provide: TUI_SANITIZER, useClass: NgDompurifySanitizer},
+        {provide: TOXIC_STATE_TOKEN, useValue: new BehaviorSubject(null)}
     ]
 })
 export class AppComponent {

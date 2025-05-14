@@ -1,5 +1,5 @@
-import {ChangeDetectionStrategy, Component, input, InputSignal} from "@angular/core";
-import {DecimalPipe, NgClass} from "@angular/common";
+import {Component, input, InputSignal} from "@angular/core";
+import {DecimalPipe, NgClass, PercentPipe} from "@angular/common";
 
 @Component({
     standalone: true,
@@ -7,13 +7,12 @@ import {DecimalPipe, NgClass} from "@angular/common";
     templateUrl: './progress-bar.component.html',
     imports: [
         NgClass,
-        DecimalPipe
+        DecimalPipe,
+        PercentPipe
     ],
     styleUrls: ['./styles/progress-bar.component.scss'],
 })
 export class ProgressBarComponent {
-    public readonly isConfidence: InputSignal<boolean> = input();
-
     public readonly value: InputSignal<number> = input.required();
     public readonly titleText: InputSignal<string> = input.required();
     public readonly subtitleText: InputSignal<string> = input('');

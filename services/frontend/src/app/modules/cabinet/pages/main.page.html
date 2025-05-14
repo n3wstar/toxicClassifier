@@ -1,5 +1,5 @@
 <div class="page">
-     <div class="header">
+    <div class="header">
         <h1 class="header__title">ru-toxic-text-classification</h1>
     </div>
 
@@ -19,11 +19,31 @@
         <textarea #searchInput [(ngModel)]="inputText" class="analyze__textarea" rows="6"
                   placeholder="Введите текст..."></textarea>
 
-        <button tuiButton (click)="analyzeText()" appearance="secondary">Анализировать</button>
+        @if (confidenceState()) {
+            <div style="margin-bottom: 20px">
+                <progress-bar [titleText]="'Точность определения'" [value]="confidenceState()"/>
+            </div>
 
-        @if (result) {
-            <progress-bar [titleText]="'Результат'" [subtitleText]="'Уровень токсичности'" [value]="result.toxicity" />
-            <progress-bar [titleText]="'Точность определения'" [value]="confidenceState()" />
+            @if (toxicState$.value === 'TOXIC' || toxicState$.value === 'NORMAL') {
+                <div class="result__container">
+                    <div style="padding: 20px; box-sizing: border-box">
+                        <p class="result__subtitle"
+                           style="margin-top: 0">{{ toxicState$.value === 'TOXIC' ? '✅' : '⚠️' }} Анализ завершен</p>
+                        <p class="result__subtitle">🔎
+                            Результат: {{ toxicState$.value === 'TOXIC' ? '🔴 ОБНАРУЖЕНА ТОКСИЧНОСТЬ В ТЕКСТЕ' : '🟢 ТЕКСТ НЕ СОДЕРЖИТ ТОКСИЧНОСТИ' }}</p>
+
+                        <p class="result__subtitle" style="margin-bottom: 0">
+                            {{ toxicState$.value === 'TOXIC' ? 'Пожалуйста, избегайте оскорбительной лексики' : 'Всё в порядке' }}
+                        </p>
+                    </div>
+                </div>
+            }
+
+
         }
+
+        <button tuiButton (click)="analyzeText()" appearance="secondary" style="margin-right: 20px">Анализировать
+        </button>
+        <button tuiButton (click)="resetForm()" appearance="accent">Сбросить</button>
     </div>
 </div>

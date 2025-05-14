@@ -1,6 +1,6 @@
 import {Component, ElementRef, inject, OnDestroy, signal, ViewChild, WritableSignal} from '@angular/core';
 import {Subject} from "rxjs";
-import { TOXIC_STATE_TOKEN } from '../../data/tokens/toxic-state.token';
+import {TOXIC_STATE_TOKEN} from '../../data/tokens/toxic-state.token';
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
@@ -10,7 +10,7 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
     styleUrls: ['./styles/smiley-animation.component.scss']
 })
 export class SmileyAnimationComponent implements OnDestroy {
-    @ViewChild('smileyContainer', { static: true })
+    @ViewChild('smileyContainer', {static: true})
     public readonly smileyContainer!: ElementRef;
 
     protected readonly smiles: WritableSignal<Array<any>> = signal([]);
@@ -18,22 +18,21 @@ export class SmileyAnimationComponent implements OnDestroy {
     private _lastTime: number = 0;
 
     private readonly _toxicityLevels: any = [
-        { minPercent: 0.0, emojis: ['😊', '😇', '🙂', '😌', '🥰'] },
-        { minPercent: 0.2, emojis: ['😐', '😶', '😏', '🤨', '🧐'] },
-        { minPercent: 0.4, emojis: ['😒', '😕', '🙄', '😟', '🤔'] },
-        { minPercent: 0.6, emojis: ['😠', '😤', '🤬', '👿', '💢'] },
-        { minPercent: 0.8, emojis: ['👹', '👺', '💀', '☠️', '🤯'] },
-        { minPercent: 0.95, emojis: ['💀☠️', '👿🔥', '🤬💣', '🖕⚰️', '💩🤮'] }
+        {state: 'NORMAL', emojis: ['😊', '😇', '🙂', '😌', '🥰', '😐', '😶', '😏', '🤨', '🧐']},
+        {
+            state: 'TOXIC',
+            emojis: ['😒', '😕', '🙄', '😟', '🤔', '😠', '😤', '🤬', '👿', '👹', '👺', '💀', '☠️', '🤯', '💀☠️', '👿🔥', '🤬💣', '🖕⚰️', '💩🤮']
+        },
     ];
 
-    private readonly _toxicState$: Subject<number> = inject(TOXIC_STATE_TOKEN);
+    private readonly _toxicState$: Subject<'TOXIC' | 'NORMAL' | null> = inject(TOXIC_STATE_TOKEN);
 
     constructor() {
         this._toxicState$
             .pipe(
                 takeUntilDestroyed()
             )
-            .subscribe((state: number) => {
+            .subscribe((state: 'TOXIC' | 'NORMAL' | null) => {
                 const emojis: any[] = this.getSmileysForToxicity(state);
 
                 this.startAnimation(emojis);
@@ -94,11 +93,7 @@ export class SmileyAnimationComponent implements OnDestroy {
             : null;
     }
 
-    private getSmileysForToxicity(percent: number): string[] {
-        const matchedLevel = this._toxicityLevels
-            .filter((level: any) => percent >= level.minPercent)
-            .sort((a: any, b: any) => b.minPercent - a.minPercent)[0];
-
-        return matchedLevel?.emojis || this._toxicityLevels[0].emojis;
+    private getSmileysForToxicity(state: 'TOXIC' | 'NORMAL' | null): string[] {
+        return this._toxicityLevels?.find((i: any) => i.state === state).emojis;
     }
 }

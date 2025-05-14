@@ -1,5 +1,5 @@
 export interface IPredictResponse {
     text: string;
-    prediction: string;
+    prediction: 'TOXIC' | 'NORMAL';
     confidence: number;
 }

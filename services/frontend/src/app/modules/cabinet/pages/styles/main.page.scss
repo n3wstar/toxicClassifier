@@ -14,7 +14,7 @@
     align-items: center;
     padding: 1rem 2rem;
     background: #fff;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
     &__title {
         font-size: 1.5rem;
@@ -52,6 +52,7 @@
             max-width: 40%;
         }
     }
+
     &__title {
         font-family: 'Nunito', sans-serif;
         line-height: 100%;
@@ -91,7 +92,7 @@
     background: #fff;
     padding: 2rem;
     border-radius: 1rem;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
     margin: 2rem auto;
 
     &__title {
@@ -117,4 +118,19 @@
             box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
         }
     }
+}
+
+.result__container {
+    padding: 10px;
+    background: #f2f4f5;
+    border-radius: 20px;
+    box-sizing: border-box;
+    margin-bottom: 30px;
+}
+
+.result__subtitle {
+    font-size: 1rem;
+    color: #555;
+    max-width: 600px;
+    line-height: 100%;
 }

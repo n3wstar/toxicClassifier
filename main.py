@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import joblib
 import re
@@ -8,6 +9,15 @@ model = joblib.load('toxic_classifier.joblib')
 vectorizer = joblib.load('vectorizer.joblib')
 
 app = FastAPI(title="Toxic Comment Classifier API")
+
+# Настройка CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Для разработки можно использовать *, в проде лучше указать домены
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 class Comment(BaseModel):
